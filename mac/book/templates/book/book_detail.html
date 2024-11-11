@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ book.title }}{% endblock %}
+
+{% block content %}
+    <h1>{{ book.title }}</h1>
+    <p><strong>Author:</strong> {{ book.author }}</p>
+    <p><strong>Publication Date:</strong> {{ book.publication_date }}</p>
+    <p><strong>ISBN:</strong> {{ book.ISBN }}</p>
+    <p><strong>Genre:</strong> {{ book.genre }}</p>
+
+    <h2>Reviews</h2>
+    {% for review in book.reviews.all %}
+        <div>
+            <p><strong>{{ review.user.username }}:</strong> {{ review.comment }} (Rating: {{ review.rating }})</p>
+            <p><small>Posted on {{ review.created_at }}</small></p>
+        </div>
+    {% empty %}
+        <p>No reviews yet.</p>
+    {% endfor %}
+
+    <a href="{% url 'submit_review' book.pk %}">Submit A Review</a>
+
+    <a href="{% url 'book_update' book.pk %}">Edit Book</a>
+    <a href="{% url 'book_delete' book.pk %}">Delete Book</a>
+{% endblock %}
